@@ -1,20 +1,19 @@
 const express = require('express');
+const path = require('path');
 const app = express();
 
-// Import all routes
-const userRoutes = require('./routes/userRoutes');
-const productRoutes = require('./routes/productRoutes');
-const cartRoutes = require('./routes/cartRoutes');
+// GET endpoint to serve HTML file
+app.get('/api/products', (req, res) => {
+  console.log("Fetching All Products");
+  res.sendFile(path.join(__dirname, 'VIEW', 'index.html'));
+});
 
-app.use(express.json());
+// Optional: basic root route
+app.get('/', (req, res) => {
+  res.send('Home Page');
+});
 
-// Register routes
-app.use(userRoutes);
-app.use(productRoutes);
-app.use(cartRoutes);
-
-// Start server
 const PORT = 4000;
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running at http://localhost:${PORT}`);
 });
