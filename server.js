@@ -1,16 +1,19 @@
 const express = require('express');
 const path = require('path');
-const app = express();
 
-// GET endpoint to serve HTML file
-app.get('/api/products', (req, res) => {
-  console.log("Fetching All Products");
-  res.sendFile(path.join(__dirname, 'VIEW', 'index.html'));
+const app = express();
+app.use(express.json()); // to parse JSON data
+
+// Serve form
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'VIEW', 'form.html'));
 });
 
-// Optional: basic root route
-app.get('/', (req, res) => {
-  res.send('Home Page');
+// Handle product submission
+app.post('/api/products', (req, res) => {
+  const product = req.body;
+  console.log("Received product:", product); // log to server
+  res.json(product); // send back to client
 });
 
 const PORT = 4000;
