@@ -1,12 +1,21 @@
 const express = require('express');
 const app = express();
-const booksRouter = require('./routes/books');
+const studentRoutes = require('./routes/students');
+const courseRoutes = require('./routes/courses');
 
-// Middleware to parse JSON bodies
-app.use(express.json());
+// Home route
+app.get('/', (req, res) => {
+  res.send("Welcome to the Student & Course Portal API!");
+});
 
-// Use the books router
-app.use('/books', booksRouter);
+// Use routers
+app.use('/students', studentRoutes);
+app.use('/courses', courseRoutes);
+
+// 404 handler (catch-all)
+app.all('/:any', (req, res) => {
+  res.status(404).send('Page not found');
+});
 
 // Start the server
 app.listen(4000, () => {
